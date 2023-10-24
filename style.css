@@ -1,0 +1,57 @@
+*, ::before, ::after, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: rgb(254, 254, 254);
+}
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+main {
+    background-color: #B3BDC0;
+    margin: 200px auto;
+    width: 720px;
+    height: 720px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 10px;
+}
+
+.columnsWrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.column {
+    background-color: #B3BDC0;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+.hole {
+    height: 70px;
+    width: 70px;
+    background-color: white;
+    display: flex;
+    gap: 40px;
+    border-radius: 50%;
+}
+
+.column:hover {
+    background-color: #a2b0b4;
+}
+
+.playerOne{
+    background-color: red;
+}
+.playerTwo {
+    background-color: yellow;
+}
