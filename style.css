@@ -1,8 +1,8 @@
 *, ::before, ::after, body {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
-    background-color: rgb(254, 254, 254);
+    box-sizing: border-box; 
+    font-family: 'Lato', sans-serif;
 }
 li {
     list-style-type: none;
@@ -54,4 +54,30 @@ main {
 }
 .playerTwo {
     background-color: yellow;
+}
+
+.messageError {
+    display: flex;
+    gap: 15px;
+    padding: 15px 12px;
+    background-color: rgb(224, 187, 193);
+    width: 350px;
+    height: 70px;
+    transform: translateY(30px);
+    display: none;
+}
+
+.messageError.active-animation {
+    animation: errorAppearance 2.5s;
+    display: flex;
+}
+
+@keyframes errorAppearance {
+     0%{
+        transform: translateY(30px);
+        display: flex;
+    }
+     100%{
+        transform: translateY(-20px);
+    }
 }
