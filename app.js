@@ -37,10 +37,9 @@ function ErrorMessageAppearence() {
 }
 
 
-const columns = document.querySelectorAll(".column");
 function handleColumnClick(column) {
   const lastEmptyHole = getLastEmptyHole(column);
-
+  
   if (lastEmptyHole) {
     placeTokenInColumn(lastEmptyHole);
   } else {
@@ -54,6 +53,18 @@ function placeTokenInColumn(hole) {
   game.switchPlayer();
 }
 
+const columns = document.querySelectorAll(".column");
 for (const column of columns) {
   column.addEventListener("click", () => handleColumnClick(column));
 }
+
+function parseGame() {
+  for(let i = 0; i < columns.length; i++) {
+        console.log(columns[i].children);
+         for(let j = 0; j < columns[i].children.length+1; j++) {
+          console.log(columns[j].children[i]);
+        
+         }
+  }
+}
+parseGame()
