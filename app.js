@@ -87,5 +87,21 @@ formatVerticalArray();
 formatHorizontalArray();
 
 
-console.log(gameData.vertical);
-console.log(gameData.horizontal);
+// console.log(gameData.vertical);
+// console.log(gameData.horizontal);
+
+const bottomStore = {
+  start : 3,
+  end : 7,
+  array : [],
+  rowsLength : 5
+}
+
+function checkDiagonalFromBottom() {
+    for (let i = bottomStore.rowsLength; i > -1; i--) {
+        const sliceEnd = Math.min(bottomStore.start++, bottomStore.end);
+        bottomStore.array.push(gameData.horizontal[i].slice(0, bottomStore.start))
+      }
+}
+checkDiagonalFromBottom()
+console.log(bottomStore.array);

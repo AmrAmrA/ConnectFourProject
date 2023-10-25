@@ -50,10 +50,10 @@ main {
 }
 
 .playerOne{
-    background-color: red;
+    background-color: #F54E54;
 }
 .playerTwo {
-    background-color: yellow;
+    background-color: #F5D34E;
 }
 
 .messageError {
