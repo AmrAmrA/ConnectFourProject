@@ -36,10 +36,9 @@ function ErrorMessageAppearence() {
   });
 }
 
-
 function handleColumnClick(column) {
   const lastEmptyHole = getLastEmptyHole(column);
-  
+
   if (lastEmptyHole) {
     placeTokenInColumn(lastEmptyHole);
   } else {
@@ -58,13 +57,35 @@ for (const column of columns) {
   column.addEventListener("click", () => handleColumnClick(column));
 }
 
-function parseGame() {
-  for(let i = 0; i < columns.length; i++) {
-        console.log(columns[i].children);
-         for(let j = 0; j < columns[i].children.length+1; j++) {
-          console.log(columns[j].children[i]);
-        
-         }
+const gameData = {
+  vertical: [],
+  horizontal: []
+};
+
+function formatVerticalArray() {
+  let verticalDataArray = [];
+  for (let i = 0; i < columns.length; i++) {
+    verticalDataArray.push(Array.from(columns[i].children));
   }
+  gameData.vertical = verticalDataArray;
 }
-parseGame()
+
+function formatHorizontalArray() {
+  let horizontalDataArray = [];
+  for (let i = 0; i < 6; i++) { 
+    let currentRow = [];
+    for (let j = 0; j < gameData.vertical.length; j++) {
+      currentRow.push(gameData.vertical[j][i]);
+    }
+    horizontalDataArray.push(currentRow);
+  }
+  gameData.horizontal = horizontalDataArray;
+}
+
+
+formatVerticalArray();
+formatHorizontalArray();
+
+
+console.log(gameData.vertical);
+console.log(gameData.horizontal);
