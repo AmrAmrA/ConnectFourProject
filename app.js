@@ -21,7 +21,9 @@ const game = {
   },
   switchPlayer() {
     this.currentPlayer =
-      this.currentPlayer === "playerOne" ? "playerTwo" : "playerOne";
+      this.currentPlayer === "playerOne" 
+      ? "playerTwo" : 
+      "playerOne";
   },
 };
 
@@ -93,18 +95,21 @@ function checkDiagonalFromBottom() {
 checkDiagonalFromBottom();
 
 const algoStore = {
-  rowStart: 0,
-  rowLength: 6,
-  middleToBottomArray: [],
-  middleToBottomArray: gameData.horizontal.slice(2, 6),
+  rowStart: 2,
+  rowEnd: 5,
+  columnstart: 0,
+  columnEnd: 3,
 };
-
 function algorithmSimulation() {
-  for (let i = 0; i < 7; i++) {
-    const calcul = Math.min(algoStore.rowStart++, algoStore.rowLength);
-    if(i < 3) {
-          console.log(calcul);
+  for (let j = 0; j < gameData.horizontal[2].length; j++) {
+    if (j < 4) {
+      const incrementRows = Math.min(algoStore.rowStart++, algoStore.rowEnd);
+      const incrementColumns = Math.min(algoStore.columnstart++,algoStore.columnEnd);
+      console.log(gameData.horizontal[incrementRows][incrementColumns]);
+      console.log(incrementColumns);
+      console.log(algoStore.columnEnd);
     }
   }
 }
+
 algorithmSimulation();
