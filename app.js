@@ -95,21 +95,21 @@ function checkDiagonalFromBottom() {
 checkDiagonalFromBottom();
 
 const algoStore = {
-  rowStart: 2,
-  rowEnd: 5,
-  columnstart: 0,
-  columnEnd: 3,
+       firstAbove : 0,
+       firstBottom  : 3,
+
+       lastAbove : 3, 
+       lastBottom : 6,
+       
+       combinations : [], 
 };
-function algorithmSimulation() {
-  for (let j = 0; j < gameData.horizontal[2].length; j++) {
-    if (j < 4) {
-      const incrementRows = Math.min(algoStore.rowStart++, algoStore.rowEnd);
-      const incrementColumns = Math.min(algoStore.columnstart++,algoStore.columnEnd);
-      console.log(gameData.horizontal[incrementRows][incrementColumns]);
-      console.log(incrementColumns);
-      console.log(algoStore.columnEnd);
-    }
+    function algorithmSimulation() {
+  for (let j = 2; j < gameData.horizontal[2].length -1 ; j++) {
+      const incrementFirstIndex = Math.min(algoStore.firstAbove++, algoStore.firstBottom)
+      const incrementLastIndex  = Math.min(algoStore.lastAbove++, algoStore.lastBottom)
+      algoStore.combinations.push(gameData.horizontal[j].slice(incrementFirstIndex,incrementLastIndex));
+     
   }
 }
-
 algorithmSimulation();
+console.log(algoStore.combinations);
