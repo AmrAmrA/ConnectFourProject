@@ -21,9 +21,7 @@ const game = {
   },
   switchPlayer() {
     this.currentPlayer =
-      this.currentPlayer === "playerOne" 
-      ? "playerTwo" : 
-      "playerOne";
+      this.currentPlayer === "playerOne" ? "playerTwo" : "playerOne";
   },
 };
 
@@ -94,18 +92,45 @@ function checkDiagonalFromBottom() {
 }
 checkDiagonalFromBottom();
 
-const algoStore = {
-       firstAbove : 0,
-       lastAbove : 3,  
-       combinations : [], 
+const rightAlgorithm = {
+  firstAbove: 4,
+  lastAbove: 7,
+  startRow: 2,
+  endRow: 6,
+  combinations: [],
 };
-    function algorithmSimulation() {
-  for (let j = 2; j < gameData.horizontal[2].length -1 ; j++) {
-      const incrementFirstIndex = algoStore.firstAbove++;
-      const incrementLastIndex  = algoStore.lastAbove++;
-      algoStore.combinations.push(gameData.horizontal[j].slice(incrementFirstIndex,incrementLastIndex));
-     
+
+
+const leftAlgorithm = {
+  firstAbove: 0,
+  lastAbove: 3,
+  combinations: [],
+  startRow: 2,
+  endRow: 6,
+};
+
+
+function winLeftDiagonals() {
+  for (let j = leftAlgorithm.startRow; j < leftAlgorithm.endRow; j++) {
+    const incrementFirstIndex = leftAlgorithm.firstAbove++;
+    const incrementLastIndex = leftAlgorithm.lastAbove++;
+    leftAlgorithm.combinations.push(
+      gameData.horizontal[j].slice(incrementFirstIndex, incrementLastIndex)
+    );
   }
 }
-algorithmSimulation();
-console.log(algoStore.combinations);
+winLeftDiagonals();
+console.log(leftAlgorithm.combinations);
+
+
+function winRightDiagonals() {
+  for (let k = rightAlgorithm.startRow; k < rightAlgorithm.endRow; k++) {
+    const decrementFirstIndex = rightAlgorithm.firstAbove--;
+    const decrementLastIndex = rightAlgorithm.lastAbove++;
+    rightAlgorithm.combinations.push(
+      gameData.horizontal[k].slice(decrementFirstIndex, decrementLastIndex)
+    );
+  }
+}
+winRightDiagonals();
+console.log(rightAlgorithm.combinations);
