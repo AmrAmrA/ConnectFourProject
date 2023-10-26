@@ -92,45 +92,35 @@ function checkDiagonalFromBottom() {
 }
 checkDiagonalFromBottom();
 
-const rightAlgorithm = {
-  firstAbove: 4,
-  lastAbove: 7,
+const algorithmsStore = {
   startRow: 2,
   endRow: 6,
-  combinations: [],
+  leftDiagonal: {
+    combinations: [],
+    start: 0,
+    end: 3,
+  },
+  rightDiagonal: {
+    combinations: [],
+    start: 4,
+    end: 7,
+  },
 };
 
+function computeDiagonalCombinations() {
+  for (let j = algorithmsStore.startRow; j < algorithmsStore.endRow; j++) {
+    const incrementLastleftIndex = algorithmsStore.leftDiagonal.start++;
+    const incrementFirstLeftIndex = algorithmsStore.leftDiagonal.end++;
 
-const leftAlgorithm = {
-  firstAbove: 0,
-  lastAbove: 3,
-  combinations: [],
-  startRow: 2,
-  endRow: 6,
-};
+    const decrementRightIndex = algorithmsStore.rightDiagonal.start--;
+    const incrementFirstRightIndex = algorithmsStore.rightDiagonal.end++;
+    algorithmsStore.leftDiagonal.combinations.push(
+      gameData.horizontal[j].slice(incrementLastleftIndex,incrementFirstLeftIndex));
 
-
-function winLeftDiagonals() {
-  for (let j = leftAlgorithm.startRow; j < leftAlgorithm.endRow; j++) {
-    const incrementFirstIndex = leftAlgorithm.firstAbove++;
-    const incrementLastIndex = leftAlgorithm.lastAbove++;
-    leftAlgorithm.combinations.push(
-      gameData.horizontal[j].slice(incrementFirstIndex, incrementLastIndex)
-    );
+    algorithmsStore.rightDiagonal.combinations.push(
+      gameData.horizontal[j].slice(decrementRightIndex,incrementFirstRightIndex));
   }
 }
-winLeftDiagonals();
-console.log(leftAlgorithm.combinations);
-
-
-function winRightDiagonals() {
-  for (let k = rightAlgorithm.startRow; k < rightAlgorithm.endRow; k++) {
-    const decrementFirstIndex = rightAlgorithm.firstAbove--;
-    const decrementLastIndex = rightAlgorithm.lastAbove++;
-    rightAlgorithm.combinations.push(
-      gameData.horizontal[k].slice(decrementFirstIndex, decrementLastIndex)
-    );
-  }
-}
-winRightDiagonals();
-console.log(rightAlgorithm.combinations);
+computeDiagonalCombinations();
+console.log(algorithmsStore.leftDiagonal.combinations);
+console.log(algorithmsStore.rightDiagonal.combinations);
