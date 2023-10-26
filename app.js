@@ -20,11 +20,8 @@ const game = {
       : this.playerTwoMove++;
   },
   switchPlayer() {
-    if (this.currentPlayer === "playerOne") {
-      this.currentPlayer = "playerTwo";
-    } else {
-      this.currentPlayer = "playerOne";
-    }
+    this.currentPlayer =
+      this.currentPlayer === "playerOne" ? "playerTwo" : "playerOne";
   },
 };
 
@@ -38,12 +35,7 @@ function ErrorMessageAppearence() {
 
 function handleColumnClick(column) {
   const lastEmptyHole = getLastEmptyHole(column);
-
-  if (lastEmptyHole) {
-    placeTokenInColumn(lastEmptyHole);
-  } else {
-    ErrorMessageAppearence();
-  }
+  lastEmptyHole ? placeTokenInColumn(lastEmptyHole) : ErrorMessageAppearence();
 }
 
 function placeTokenInColumn(hole) {
@@ -59,7 +51,7 @@ for (const column of columns) {
 
 const gameData = {
   vertical: [],
-  horizontal: []
+  horizontal: [],
 };
 
 function formatVerticalArray() {
@@ -72,36 +64,47 @@ function formatVerticalArray() {
 
 function formatHorizontalArray() {
   let horizontalDataArray = [];
-  for (let i = 0; i < 6; i++) { 
+  for (let i = 0; i < 6; i++) {
     let currentRow = [];
-    for (let j = 0; j < gameData.vertical.length; j++) {
-      currentRow.push(gameData.vertical[j][i]);
+    for (const element of gameData.vertical) {
+      currentRow.push(element[i]);
     }
     horizontalDataArray.push(currentRow);
   }
   gameData.horizontal = horizontalDataArray;
 }
 
-
 formatVerticalArray();
 formatHorizontalArray();
 
-
-// console.log(gameData.vertical);
-// console.log(gameData.horizontal);
-
 const bottomStore = {
-  start : 3,
-  end : 7,
-  array : [],
-  rowsLength : 5
-}
+  start: 4,
+  end: 7,
+  array: [],
+  rowsLength: 5,
+};
 
 function checkDiagonalFromBottom() {
-    for (let i = bottomStore.rowsLength; i > -1; i--) {
-        const sliceEnd = Math.min(bottomStore.start++, bottomStore.end);
-        bottomStore.array.push(gameData.horizontal[i].slice(0, bottomStore.start))
-      }
+  for (let i = bottomStore.rowsLength; i > -1; i--) {
+    const sliceEnd = Math.min(bottomStore.start++, bottomStore.end);
+    bottomStore.array.push(gameData.horizontal[i].slice(0, sliceEnd));
+  }
 }
-checkDiagonalFromBottom()
-console.log(bottomStore.array);
+checkDiagonalFromBottom();
+
+const algoStore = {
+  rowStart: 0,
+  rowLength: 6,
+  middleToBottomArray: [],
+  middleToBottomArray: gameData.horizontal.slice(2, 6),
+};
+
+function algorithmSimulation() {
+  for (let i = 0; i < 7; i++) {
+    const calcul = Math.min(algoStore.rowStart++, algoStore.rowLength);
+    if(i < 3) {
+          console.log(calcul);
+    }
+  }
+}
+algorithmSimulation();
