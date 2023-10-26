@@ -96,17 +96,13 @@ checkDiagonalFromBottom();
 
 const algoStore = {
        firstAbove : 0,
-       firstBottom  : 3,
-
-       lastAbove : 3, 
-       lastBottom : 6,
-       
+       lastAbove : 3,  
        combinations : [], 
 };
     function algorithmSimulation() {
   for (let j = 2; j < gameData.horizontal[2].length -1 ; j++) {
-      const incrementFirstIndex = Math.min(algoStore.firstAbove++, algoStore.firstBottom)
-      const incrementLastIndex  = Math.min(algoStore.lastAbove++, algoStore.lastBottom)
+      const incrementFirstIndex = algoStore.firstAbove++;
+      const incrementLastIndex  = algoStore.lastAbove++;
       algoStore.combinations.push(gameData.horizontal[j].slice(incrementFirstIndex,incrementLastIndex));
      
   }
