@@ -107,10 +107,10 @@ const algorithmsStore = {
   },
 
   middleDiagonal : {
-    combinations : [], 
-    start : 3,
-    leftEnd : 0,
-    rightEnd : 7,
+    rightCombinations : [], 
+    leftCombinations  : [], 
+    rightTop    : 3,
+    leftTop     : 3, 
   }
 };
 
@@ -139,3 +139,17 @@ function computeDiagonalCombinations() {
 computeDiagonalCombinations();
 console.log(algorithmsStore.leftDiagonal.combinations);
 console.log(algorithmsStore.rightDiagonal.combinations);
+
+
+function computeMiddleCombinations() {
+  for (let j = algorithmsStore.startRow; j < algorithmsStore.endRow; j++) {
+        const incrementRightTopIndex = algorithmsStore.middleDiagonal.rightTop ++;
+        const decrementLeftTopxIndex = algorithmsStore.middleDiagonal.leftTop--; 
+        algorithmsStore.middleDiagonal.rightCombinations.push((gameData.horizontal[j][incrementRightTopIndex]));
+        algorithmsStore.middleDiagonal.leftCombinations.push((gameData.horizontal[j][decrementLeftTopxIndex])); 
+  }
+}
+
+computeMiddleCombinations()
+console.log(algorithmsStore.middleDiagonal.rightCombinations);
+console.log(algorithmsStore.middleDiagonal.leftCombinations);
