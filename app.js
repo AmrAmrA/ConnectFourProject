@@ -107,20 +107,48 @@ const algorithmsStore = {
   },
 };
 
+function updateIndexes(diagonal, property, value) {
+  if (value === 0) {
+    diagonal[property]++;
+  } else {
+    diagonal[property]--;
+  } 
+  // console.log(value);
+  // console.log(property);
+  console.log(diagonal[property]);
+
+}
+
+
+
+
 function computeDiagonalCombinations() {
   for (let j = algorithmsStore.startRow; j < algorithmsStore.endRow; j++) {
-    const incrementLastleftIndex = algorithmsStore.leftDiagonal.start++;
-    const incrementFirstLeftIndex = algorithmsStore.leftDiagonal.end++;
+    const incrementFirstLeftIndex   =  updateIndexes(algorithmsStore.leftDiagonal, "start", 0);
+    const incrementLastleftIndex    = updateIndexes(algorithmsStore.leftDiagonal, "end", 0);
+    const decrementRightIndex       = updateIndexes(algorithmsStore.rightDiagonal, "end", 0);
+    const incrementFirstRightIndex  = updateIndexes(algorithmsStore.rightDiagonal, "start", -1);
+    
 
-    const decrementRightIndex = algorithmsStore.rightDiagonal.start--;
-    const incrementFirstRightIndex = algorithmsStore.rightDiagonal.end++;
+
+
+
     algorithmsStore.leftDiagonal.combinations.push(
-      gameData.horizontal[j].slice(incrementLastleftIndex,incrementFirstLeftIndex));
+      gameData.horizontal[j].slice(
+        incrementLastleftIndex,
+        incrementFirstLeftIndex
+      )
+    );
 
     algorithmsStore.rightDiagonal.combinations.push(
-      gameData.horizontal[j].slice(decrementRightIndex,incrementFirstRightIndex));
+      gameData.horizontal[j].slice(
+        decrementRightIndex,
+        incrementFirstRightIndex
+      )
+    );
   }
 }
 computeDiagonalCombinations();
 console.log(algorithmsStore.leftDiagonal.combinations);
 console.log(algorithmsStore.rightDiagonal.combinations);
+//
