@@ -1,13 +1,32 @@
+/**
+ * The above code is a JavaScript implementation of a Connect Four game, including functions for
+ * handling player moves, switching players, checking for winning combinations, and formatting game
+ * data.
+ * @param column - The `column` parameter represents the column element that was clicked by the user.
+ * @returns The code does not have a specific return statement. It consists of various functions and
+ * operations that manipulate the game state and store data in different arrays and objects.
+ */
 function getLastEmptyHole(column) {
   const holesArray = Array.from(column.children);
   return holesArray.findLast((element) => element.classList.contains("empty"));
 }
 
+/**
+ * The function "placeToken" adds a class to a specified element to represent a player's token being
+ * placed in a hole.
+ * @param hole - The "hole" parameter represents the element or element ID of the hole where the token
+ * will be placed. It is used to identify the specific hole on the game board where the token will be
+ * placed.
+ * @param player - The player parameter represents the class name that will be added to the hole
+ * element.
+ */
 function placeToken(hole, player) {
   hole.classList.remove("empty");
   hole.classList.add(player);
 }
 
+/* The `game` object represents the state of the Connect Four game. It has properties such as
+`currentPlayer`, `playerOneMove`, `playerTwoMove`, and `globalMoves`. */
 const game = {
   currentPlayer: "playerOne",
   playerOneMove: 0,
@@ -25,6 +44,9 @@ const game = {
   },
 };
 
+/**
+ * The function adds and removes a CSS class to display an error message with an animation.
+ */
 const messageError = document.querySelector(".messageError");
 function ErrorMessageAppearence() {
   messageError.classList.add("active-animation");
@@ -33,27 +55,46 @@ function ErrorMessageAppearence() {
   });
 }
 
+/**
+ * The function handles a column click event by placing a token in the last empty hole of the column or
+ * displaying an error message if the column is full.
+ * @param column - The column parameter represents the column number or index where the click event
+ * occurred.
+ */
 function handleColumnClick(column) {
   const lastEmptyHole = getLastEmptyHole(column);
   lastEmptyHole ? placeTokenInColumn(lastEmptyHole) : ErrorMessageAppearence();
 }
 
+/**
+ * The function places a token in a specified column, updates the move count, and switches the current
+ * player.
+ * @param hole - The parameter "hole" represents the column number where the token should be placed.
+ */
 function placeTokenInColumn(hole) {
   placeToken(hole, game.currentPlayer);
   game.countMoves();
   game.switchPlayer();
 }
 
+/* The code is selecting all elements with the class name "column" using the
+`document.querySelectorAll` method and storing them in the `columns` constant. */
 const columns = document.querySelectorAll(".column");
 for (const column of columns) {
   column.addEventListener("click", () => handleColumnClick(column));
 }
 
+/* The `gameData` object is used to store the game board data in a formatted manner. It has two
+properties: `vertical` and `horizontal`. */
 const gameData = {
   vertical: [],
   horizontal: [],
 };
 
+/**
+ * The function "formatVerticalArray" creates a verticalDataArray by converting the children of each
+ * element in the "columns" array into an array and assigns it to the "gameData.vertical" property.
+ */
 function formatVerticalArray() {
   let verticalDataArray = [];
   for (let i = 0; i < columns.length; i++) {
@@ -62,6 +103,10 @@ function formatVerticalArray() {
   gameData.vertical = verticalDataArray;
 }
 
+/**
+ * The function `formatHorizontalArray` takes an array `gameData.vertical` and converts it into a
+ * horizontal array `gameData.horizontal` by transposing the elements.
+ */
 function formatHorizontalArray() {
   let horizontalDataArray = [];
   for (let i = 0; i < 6; i++) {
@@ -77,6 +122,10 @@ function formatHorizontalArray() {
 formatVerticalArray();
 formatHorizontalArray();
 
+/**
+ * The function `checkDiagonalFromBottom` iterates over a range of rows and slices a portion of each
+ * row from a 2D array and pushes it into another array.
+ */
 const bottomStore = {
   start: 4,
   end: 7,
@@ -92,6 +141,8 @@ function checkDiagonalFromBottom() {
 }
 checkDiagonalFromBottom();
 
+/* The `algorithmsStore` object is used to store various properties and arrays related to diagonal
+combinations in the Connect Four game. */
 const algorithmsStore = {
   startRow: 2,
   endRow: 6,
@@ -106,14 +157,18 @@ const algorithmsStore = {
     end: 7,
   },
 
-  middleDiagonal : {
-    rightCombinations : [], 
-    leftCombinations  : [], 
-    rightTop    : 3,
-    leftTop     : 3, 
-  }
+  middleDiagonal: {
+    rightCombinations: [],
+    leftCombinations: [],
+    rightTop: 3,
+    leftTop: 3,
+  },
 };
 
+/**
+ * The function `computeDiagonalCombinations` computes diagonal combinations from a given set of
+ * horizontal data.
+ */
 function computeDiagonalCombinations() {
   for (let j = algorithmsStore.startRow; j < algorithmsStore.endRow; j++) {
     const incrementLastleftIndex = algorithmsStore.leftDiagonal.start++;
@@ -140,16 +195,23 @@ computeDiagonalCombinations();
 console.log(algorithmsStore.leftDiagonal.combinations);
 console.log(algorithmsStore.rightDiagonal.combinations);
 
-
+/**
+ * The function computes the middle combinations of a game by iterating through rows and adding
+ * elements to the right and left diagonal combinations.
+ */
 function computeMiddleCombinations() {
   for (let j = algorithmsStore.startRow; j < algorithmsStore.endRow; j++) {
-        const incrementRightTopIndex = algorithmsStore.middleDiagonal.rightTop ++;
-        const decrementLeftTopxIndex = algorithmsStore.middleDiagonal.leftTop--; 
-        algorithmsStore.middleDiagonal.rightCombinations.push((gameData.horizontal[j][incrementRightTopIndex]));
-        algorithmsStore.middleDiagonal.leftCombinations.push((gameData.horizontal[j][decrementLeftTopxIndex])); 
+    const incrementRightTopIndex = algorithmsStore.middleDiagonal.rightTop++;
+    const decrementLeftTopxIndex = algorithmsStore.middleDiagonal.leftTop--;
+    algorithmsStore.middleDiagonal.rightCombinations.push(
+      gameData.horizontal[j][incrementRightTopIndex]
+    );
+    algorithmsStore.middleDiagonal.leftCombinations.push(
+      gameData.horizontal[j][decrementLeftTopxIndex]
+    );
   }
 }
 
-computeMiddleCombinations()
+computeMiddleCombinations();
 console.log(algorithmsStore.middleDiagonal.rightCombinations);
 console.log(algorithmsStore.middleDiagonal.leftCombinations);
