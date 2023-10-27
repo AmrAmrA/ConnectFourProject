@@ -192,8 +192,8 @@ function computeDiagonalCombinations() {
   }
 }
 computeDiagonalCombinations();
-console.log(algorithmsStore.leftDiagonal.combinations);
-console.log(algorithmsStore.rightDiagonal.combinations);
+// console.log(algorithmsStore.leftDiagonal.combinations);
+// console.log(algorithmsStore.rightDiagonal.combinations);
 
 /**
  * The function computes the middle combinations of a game by iterating through rows and adding
@@ -208,10 +208,18 @@ function computeMiddleCombinations() {
     );
     algorithmsStore.middleDiagonal.leftCombinations.push(
       gameData.horizontal[j][decrementLeftTopxIndex]
-    );
+    );  
   }
 }
 
+
+const algoHorizontalStore = {
+   horizontalArrays : [], 
+}
 computeMiddleCombinations();
-console.log(algorithmsStore.middleDiagonal.rightCombinations);
-console.log(algorithmsStore.middleDiagonal.leftCombinations);
+// console.log(algorithmsStore.middleDiagonal.rightCombinations);
+// console.log(algorithmsStore.middleDiagonal.leftCombinations);
+for (let i = 0; i < gameData.horizontal.length; i++) {
+  algoHorizontalStore.horizontalArrays.push(gameData.horizontal[i].slice(1,6))
+} 
+console.log(algoHorizontalStore.horizontalArrays);
