@@ -216,10 +216,13 @@ function computeMiddleCombinations() {
 const algoHorizontalStore = {
    horizontalArrays : [], 
 }
-computeMiddleCombinations();
+// computeMiddleCombinations();
 // console.log(algorithmsStore.middleDiagonal.rightCombinations);
 // console.log(algorithmsStore.middleDiagonal.leftCombinations);
-for (let i = 0; i < gameData.horizontal.length; i++) {
-  algoHorizontalStore.horizontalArrays.push(gameData.horizontal[i].slice(1,6))
-} 
-console.log(algoHorizontalStore.horizontalArrays);
+// for (let i = 0; i < gameData.horizontal.length; i++) {
+//   algoHorizontalStore.horizontalArrays.push(gameData.horizontal[i].slice(1,6))
+// } 
+// console.log(algoHorizontalStore.horizontalArrays);
+algoHorizontalStore.horizontalArray = gameData.horizontal.map((element) => element.slice(1,6))
+
+console.log(algoHorizontalStore.horizontalArray);
