@@ -105,34 +105,22 @@ const algorithmsStore = {
     start: 4,
     end: 7,
   },
+
+  middleDiagonal : {
+    combinations : [], 
+    start : 3,
+    leftEnd : 0,
+    rightEnd : 7,
+  }
 };
-
-function updateIndexes(diagonal, property, value) {
-  if (value === 0) {
-    diagonal[property]++;
-  } else {
-    diagonal[property]--;
-  } 
-  // console.log(value);
-  // console.log(property);
-  console.log(diagonal[property]);
-
-}
-
-
-
 
 function computeDiagonalCombinations() {
   for (let j = algorithmsStore.startRow; j < algorithmsStore.endRow; j++) {
-    const incrementFirstLeftIndex   =  updateIndexes(algorithmsStore.leftDiagonal, "start", 0);
-    const incrementLastleftIndex    = updateIndexes(algorithmsStore.leftDiagonal, "end", 0);
-    const decrementRightIndex       = updateIndexes(algorithmsStore.rightDiagonal, "end", 0);
-    const incrementFirstRightIndex  = updateIndexes(algorithmsStore.rightDiagonal, "start", -1);
-    
+    const incrementLastleftIndex = algorithmsStore.leftDiagonal.start++;
+    const incrementFirstLeftIndex = algorithmsStore.leftDiagonal.end++;
 
-
-
-
+    const decrementLastRightIndex = algorithmsStore.rightDiagonal.start--;
+    const decrementFirstRightIndex = algorithmsStore.rightDiagonal.end--;
     algorithmsStore.leftDiagonal.combinations.push(
       gameData.horizontal[j].slice(
         incrementLastleftIndex,
@@ -142,8 +130,8 @@ function computeDiagonalCombinations() {
 
     algorithmsStore.rightDiagonal.combinations.push(
       gameData.horizontal[j].slice(
-        decrementRightIndex,
-        incrementFirstRightIndex
+        decrementLastRightIndex,
+        decrementFirstRightIndex
       )
     );
   }
@@ -151,4 +139,3 @@ function computeDiagonalCombinations() {
 computeDiagonalCombinations();
 console.log(algorithmsStore.leftDiagonal.combinations);
 console.log(algorithmsStore.rightDiagonal.combinations);
-//
