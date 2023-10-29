@@ -82,6 +82,7 @@ function placeTokenInColumn(hole) {
 const columns = document.querySelectorAll(".column");
 for (const column of columns) {
   column.addEventListener("click", () => handleColumnClick(column));
+ 
 }
 
 /* The `gameData` object is used to store the game board data in a formatted manner. It has two
@@ -166,10 +167,10 @@ const algorithmsStore = {
 };
 
 /**
- * The function `computeDiagonalCombinations` computes diagonal combinations from a given set of
+ * The function `computeDiagonalBottomCombinations` computes diagonal combinations from a given set of
  * horizontal data.
  */
-function computeDiagonalCombinations() {
+function computeDiagonalBottomCombinations() {
   for (let j = algorithmsStore.startRow; j < algorithmsStore.endRow; j++) {
     const incrementLastleftIndex = algorithmsStore.leftDiagonal.start++;
     const incrementFirstLeftIndex = algorithmsStore.leftDiagonal.end++;
@@ -191,7 +192,7 @@ function computeDiagonalCombinations() {
     );
   }
 }
-computeDiagonalCombinations();
+computeDiagonalBottomCombinations();
 // console.log(algorithmsStore.leftDiagonal.combinations);
 // console.log(algorithmsStore.rightDiagonal.combinations);
 
@@ -212,17 +213,72 @@ function computeMiddleCombinations() {
   }
 }
 
-
-const algoHorizontalStore = {
-   horizontalArrays : [], 
-}
 // computeMiddleCombinations();
 // console.log(algorithmsStore.middleDiagonal.rightCombinations);
 // console.log(algorithmsStore.middleDiagonal.leftCombinations);
-// for (let i = 0; i < gameData.horizontal.length; i++) {
-//   algoHorizontalStore.horizontalArrays.push(gameData.horizontal[i].slice(1,6))
-// } 
-// console.log(algoHorizontalStore.horizontalArrays);
-algoHorizontalStore.horizontalArray = gameData.horizontal.map((element) => element.slice(1,6))
 
-console.log(algoHorizontalStore.horizontalArray);
+
+const algoHorizontalStore = {
+   horizontalCombinations : [], 
+}
+/* The code `algoHorizontalStore.horizontalCombinations = gameData.horizontal.map((element) =>
+element.slice(1,6))` is creating an array of horizontal combinations from the `gameData.horizontal`
+array. */
+algoHorizontalStore. horizontalCombinations = gameData.horizontal.map((element) => element.slice(1,6))
+
+
+
+
+/* The `algorithmTopStore` object is used to store properties and arrays related to diagonal
+combinations in the Connect Four game. */
+const algorithmTopStore = {
+  startRow: 0,
+  endRow: 4,
+  leftDiagonal: {
+    combinations: [],
+    start: 3,
+    end: 6,
+  },
+  rightDiagonal: {
+    combinations: [],
+    start: 1,
+    end: 4,
+  },
+};
+
+function getLeftDiagonalIndicesForRow(row) {
+  return {
+    start: algorithmTopStore.leftDiagonal.start - row,
+    end: algorithmTopStore.leftDiagonal.end - row,
+  };
+}
+
+function getRightDiagonalIndicesForRow(row) {
+  return {
+    start: algorithmTopStore.rightDiagonal.start + row,
+    end: algorithmTopStore.rightDiagonal.end + row,
+  };
+}
+
+function computeLeftDiagonalForRowAt(row) {
+  const indices = getLeftDiagonalIndicesForRow(row);
+  return gameData.horizontal[row].slice(indices.start, indices.end);
+}
+
+function computeRightDiagonalForRowAt(row) {
+  const indices = getRightDiagonalIndicesForRow(row);
+  return gameData.horizontal[row].slice(indices.start, indices.end);
+}
+
+function computeDiagonalTopCombinations() {
+  algorithmsStore.leftDiagonal.combinations = [];
+  algorithmsStore.rightDiagonal.combinations = [];
+  for (let j = algorithmTopStore.startRow; j < algorithmTopStore.endRow; j++) {
+    algorithmTopStore.leftDiagonal.combinations.push(computeLeftDiagonalForRowAt(j));
+    algorithmTopStore.rightDiagonal.combinations.push(computeRightDiagonalForRowAt(j));
+  }
+}
+
+computeDiagonalTopCombinations();
+console.log(algorithmTopStore.leftDiagonal.combinations);
+console.log(algorithmTopStore.rightDiagonal.combinations);
