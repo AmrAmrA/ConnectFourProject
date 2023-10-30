@@ -82,7 +82,6 @@ function placeTokenInColumn(hole) {
 const columns = document.querySelectorAll(".column");
 for (const column of columns) {
   column.addEventListener("click", () => handleColumnClick(column));
- 
 }
 
 /* The `gameData` object is used to store the game board data in a formatted manner. It has two
@@ -193,8 +192,6 @@ function computeDiagonalBottomCombinations() {
   }
 }
 computeDiagonalBottomCombinations();
-// console.log(algorithmsStore.leftDiagonal.combinations);
-// console.log(algorithmsStore.rightDiagonal.combinations);
 
 /**
  * The function computes the middle combinations of a game by iterating through rows and adding
@@ -209,25 +206,19 @@ function computeMiddleCombinations() {
     );
     algorithmsStore.middleDiagonal.leftCombinations.push(
       gameData.horizontal[j][decrementLeftTopxIndex]
-    );  
+    );
   }
 }
 
 // computeMiddleCombinations();
-// console.log(algorithmsStore.middleDiagonal.rightCombinations);
-// console.log(algorithmsStore.middleDiagonal.leftCombinations);
-
 
 const algoHorizontalStore = {
-   horizontalCombinations : [], 
-}
+  horizontalCombinations: [],
+};
 /* The code `algoHorizontalStore.horizontalCombinations = gameData.horizontal.map((element) =>
 element.slice(1,6))` is creating an array of horizontal combinations from the `gameData.horizontal`
 array. */
-algoHorizontalStore. horizontalCombinations = gameData.horizontal.map((element) => element.slice(1,6))
-
-
-
+algoHorizontalStore.horizontalCombinations = gameData.horizontal.map((element) => element.slice(1, 6));
 
 /* The `algorithmTopStore` object is used to store properties and arrays related to diagonal
 combinations in the Connect Four game. */
@@ -243,6 +234,12 @@ const algorithmTopStore = {
     combinations: [],
     start: 1,
     end: 4,
+  },
+  middleDiagonal: {
+    leftCombinations: [],
+    rightCombinations: [],
+    left: 0,
+    right : 6
   },
 };
 
@@ -260,6 +257,19 @@ function getRightDiagonalIndicesForRow(row) {
   };
 }
 
+function addIndices(b) {
+  return algorithmTopStore.middleDiagonal.left + b; 
+}
+function subtractIndices(b) {
+  return algorithmTopStore.middleDiagonal.right - b; 
+}
+
+
+function getMiddleDiagonalIndices(row, countingIndices) {
+  return countingIndices(row);
+}
+
+
 function computeLeftDiagonalForRowAt(row) {
   const indices = getLeftDiagonalIndicesForRow(row);
   return gameData.horizontal[row].slice(indices.start, indices.end);
@@ -271,14 +281,18 @@ function computeRightDiagonalForRowAt(row) {
 }
 
 function computeDiagonalTopCombinations() {
-  algorithmsStore.leftDiagonal.combinations = [];
-  algorithmsStore.rightDiagonal.combinations = [];
+  algorithmTopStore.leftDiagonal.combinations = [];
+  algorithmTopStore.rightDiagonal.combinations = [];
+  algorithmTopStore.middleDiagonal.leftCombinations = [];
+  algorithmTopStore.middleDiagonal.rightCombinations = [];
   for (let j = algorithmTopStore.startRow; j < algorithmTopStore.endRow; j++) {
-    algorithmTopStore.leftDiagonal.combinations.push(computeLeftDiagonalForRowAt(j));
-    algorithmTopStore.rightDiagonal.combinations.push(computeRightDiagonalForRowAt(j));
+      algorithmTopStore.leftDiagonal.combinations.push(computeLeftDiagonalForRowAt(j));
+      algorithmTopStore.rightDiagonal.combinations.push(computeRightDiagonalForRowAt(j)); 
+      algorithmTopStore.middleDiagonal.leftCombinations.push(gameData.horizontal[j][getMiddleDiagonalIndices(j, addIndices)]);
+      algorithmTopStore.middleDiagonal.rightCombinations.push(gameData.horizontal[j][getMiddleDiagonalIndices(j, subtractIndices)]);
   }
 }
 
 computeDiagonalTopCombinations();
-console.log(algorithmTopStore.leftDiagonal.combinations);
-console.log(algorithmTopStore.rightDiagonal.combinations);
+console.log(algorithmTopStore.middleDiagonal.leftCombinations);
+console.log(algorithmTopStore.middleDiagonal.rightCombinations);
