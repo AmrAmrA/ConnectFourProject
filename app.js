@@ -46,12 +46,28 @@ const game = {
   },
 };
 
-let columnCounters = {};
 
-function incrementColumnClick(column) {
-  const columnName = column.classList[1];
-  !columnCounters[columnName] ? columnCounters[columnName] = 0 : '';
-  columnCounters[columnName]++;
+const createColumnCounter = () => {
+  const columnCounters = {};
+  
+  return (column) => {
+    const columnName = column.classList[1];
+    if (!columnCounters[columnName]) {
+      columnCounters[columnName] = 0;
+    }
+    columnCounters[columnName]++;
+    console.log(columnCounters);
+  };
+};
+
+// Maintenant, vous pouvez créer une instance de votre compteur de colonnes:
+const incrementColumnClick = createColumnCounter();
+
+// Et l'utiliser dans votre code:
+function handleColumnClick(column) {
+  const lastEmptyHole = getLastEmptyHole(column);
+  lastEmptyHole ? placeTokenInColumn(lastEmptyHole) : ErrorMessageAppearence();
+  incrementColumnClick(column);
 }
 
 /**
@@ -66,24 +82,10 @@ function ErrorMessageAppearence() {
 }
 
 /**
- * The function handles a column click event by placing a token in the last empty hole of the column or
- * displaying an error message if the column is full.
- * @param column - The column parameter represents the column number or index where the click event
- * occurred.
- */
-
-
-function handleColumnClick(column) {
-  const lastEmptyHole = getLastEmptyHole(column);
-  lastEmptyHole ? placeTokenInColumn(lastEmptyHole) : ErrorMessageAppearence();
-  incrementColumnClick(column)
-}
-
-/**
  * The function places a token in a specified column, updates the move count, and switches the current
  * player.
  * @param hole - The parameter "hole" represents the column number where the token should be placed.
-*/
+ */
 function placeTokenInColumn(hole) {
   placeToken(hole, game.currentPlayer);
   game.countMoves();
@@ -232,7 +234,9 @@ const algoHorizontalStore = {
 /* The code `algoHorizontalStore.horizontalCombinations = gameData.horizontal.map((element) =>
 element.slice(1,6))` is creating an array of horizontal combinations from the `gameData.horizontal`
 array. */
-algoHorizontalStore.horizontalCombinations = gameData.horizontal.map((element) => element.slice(1, 6));
+algoHorizontalStore.horizontalCombinations = gameData.horizontal.map(
+  (element) => element.slice(1, 6)
+);
 
 /* The `algorithmTopStore` object is used to store properties and arrays related to diagonal
 combinations in the Connect Four game. */
@@ -253,7 +257,7 @@ const algorithmTopStore = {
     leftCombinations: [],
     rightCombinations: [],
     left: 0,
-    right : 6
+    right: 6,
   },
 };
 
@@ -272,17 +276,15 @@ function getRightDiagonalIndicesForRow(row) {
 }
 
 function addIndices(b) {
-  return algorithmTopStore.middleDiagonal.left + b; 
+  return algorithmTopStore.middleDiagonal.left + b;
 }
 function subtractIndices(b) {
-  return algorithmTopStore.middleDiagonal.right - b; 
+  return algorithmTopStore.middleDiagonal.right - b;
 }
-
 
 function getMiddleDiagonalIndices(row, countingIndices) {
   return countingIndices(row);
 }
-
 
 function computeLeftDiagonalForRowAt(row) {
   const indices = getLeftDiagonalIndicesForRow(row);
@@ -294,17 +296,24 @@ function computeRightDiagonalForRowAt(row) {
   return gameData.horizontal[row].slice(indices.start, indices.end);
 }
 
-
 function computeDiagonalTopCombinations() {
   algorithmTopStore.leftDiagonal.combinations = [];
   algorithmTopStore.rightDiagonal.combinations = [];
   algorithmTopStore.middleDiagonal.leftCombinations = [];
   algorithmTopStore.middleDiagonal.rightCombinations = [];
   for (let j = algorithmTopStore.startRow; j < algorithmTopStore.endRow; j++) {
-      algorithmTopStore.leftDiagonal.combinations.push(computeLeftDiagonalForRowAt(j));
-      algorithmTopStore.rightDiagonal.combinations.push(computeRightDiagonalForRowAt(j)); 
-      algorithmTopStore.middleDiagonal.leftCombinations.push(gameData.horizontal[j][getMiddleDiagonalIndices(j, addIndices)]);
-      algorithmTopStore.middleDiagonal.rightCombinations.push(gameData.horizontal[j][getMiddleDiagonalIndices(j, subtractIndices)]);
+    algorithmTopStore.leftDiagonal.combinations.push(
+      computeLeftDiagonalForRowAt(j)
+    );
+    algorithmTopStore.rightDiagonal.combinations.push(
+      computeRightDiagonalForRowAt(j)
+    );
+    algorithmTopStore.middleDiagonal.leftCombinations.push(
+      gameData.horizontal[j][getMiddleDiagonalIndices(j, addIndices)]
+    );
+    algorithmTopStore.middleDiagonal.rightCombinations.push(
+      gameData.horizontal[j][getMiddleDiagonalIndices(j, subtractIndices)]
+    );
   }
 }
 
