@@ -63,20 +63,23 @@ function ErrorMessageAppearence() {
  * @param column - The column parameter represents the column number or index where the click event
  * occurred.
  */
+
 function handleColumnClick(column) {
   const lastEmptyHole = getLastEmptyHole(column);
   lastEmptyHole ? placeTokenInColumn(lastEmptyHole) : ErrorMessageAppearence();
+  console.log(column);
 }
 
 /**
  * The function places a token in a specified column, updates the move count, and switches the current
  * player.
  * @param hole - The parameter "hole" represents the column number where the token should be placed.
- */
+*/
 function placeTokenInColumn(hole) {
   placeToken(hole, game.currentPlayer);
   game.countMoves();
   game.switchPlayer();
+  console.log(hole);
 }
 
 /* The code is selecting all elements with the class name "column" using the
@@ -297,5 +300,3 @@ function computeDiagonalTopCombinations() {
 }
 
 computeDiagonalTopCombinations();
-console.log(algorithmTopStore.middleDiagonal.leftCombinations);
-console.log(algorithmTopStore.middleDiagonal.rightCombinations);
