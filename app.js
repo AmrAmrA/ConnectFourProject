@@ -1,3 +1,5 @@
+import { sayHello } from "./modules/check.js";
+
 /**
  * The above code is a JavaScript implementation of a Connect Four game, including functions for
  * handling player moves, switching players, checking for winning combinations, and formatting game
@@ -279,6 +281,7 @@ function computeRightDiagonalForRowAt(row) {
   const indices = getRightDiagonalIndicesForRow(row);
   return gameData.horizontal[row].slice(indices.start, indices.end);
 }
+
 
 function computeDiagonalTopCombinations() {
   algorithmTopStore.leftDiagonal.combinations = [];
