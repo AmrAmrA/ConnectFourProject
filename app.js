@@ -46,6 +46,14 @@ const game = {
   },
 };
 
+let columnCounters = {};
+
+function incrementColumnClick(column) {
+  const columnName = column.classList[1];
+  !columnCounters[columnName] ? columnCounters[columnName] = 0 : '';
+  columnCounters[columnName]++;
+}
+
 /**
  * The function adds and removes a CSS class to display an error message with an animation.
  */
@@ -64,10 +72,11 @@ function ErrorMessageAppearence() {
  * occurred.
  */
 
+
 function handleColumnClick(column) {
   const lastEmptyHole = getLastEmptyHole(column);
   lastEmptyHole ? placeTokenInColumn(lastEmptyHole) : ErrorMessageAppearence();
-  console.log(column);
+  incrementColumnClick(column)
 }
 
 /**
@@ -79,7 +88,7 @@ function placeTokenInColumn(hole) {
   placeToken(hole, game.currentPlayer);
   game.countMoves();
   game.switchPlayer();
-  console.log(hole);
+  // console.log(hole);
 }
 
 /* The code is selecting all elements with the class name "column" using the
