@@ -27,6 +27,12 @@ function placeToken(hole, player) {
   hole.classList.add(player);
 }
 
+/* The code is selecting all elements with the class name "column" using the
+`document.querySelectorAll` method and storing them in the `columns` constant. */
+const columns = document.querySelectorAll(".column");
+for (const column of columns) {
+  column.addEventListener("click", () => handleColumnClick(column));
+}
 /* The `game` object represents the state of the Connect Four game. It has properties such as
 `currentPlayer`, `playerOneMove`, `playerTwoMove`, and `globalMoves`. */
 const game = {
@@ -62,26 +68,49 @@ const createColumnCounter = () => {
     },
   };
 };
+
 const columnCounter = createColumnCounter();
-const counters = columnCounter.getCounters();
+const verifiedArrays = { gatheredArrays: [] };
+
+
 
 function getColumnWithFourTokens() {
   const counters = columnCounter.getCounters();
   for (const columnName in counters) {
     if (counters[columnName] === 4) {
-      console.log(columnName);
+      verifiedArrays.gatheredArrays.push(columnName);
+      verifiyArray()
     }
   }
   return null;
 }
 
+const formatColumns = {
+  array : Array.from(columns), 
+}
+
+function verifiyArray () {
+  for (const columnTest of formatColumns.array) {
+    // console.log(columnTest.classList[1]);
+    if(verifiedArrays.gatheredArrays.includes('seventhColumn')) {
+      console.log('good start');
+    }
+    // if(verifiedArrays.gatheredArrays.contains(columnTest.classList[1])) {
+    //       console.log('same array');
+    // }
+    // const testSlice = Array.from(columnTest.children).slice(2, 4); 
+    // console.log(testSlice);
+  }
+}
 function handleColumnClick(column) {
   const lastEmptyHole = getLastEmptyHole(column);
   lastEmptyHole ? placeTokenInColumn(lastEmptyHole) : ErrorMessageAppearence();
   columnCounter.increment(column);
-  console.log(counters);
   getColumnWithFourTokens();
+  console.log(verifiedArrays.gatheredArrays);
 }
+
+
 
 /**
  * The function adds and removes a CSS class to display an error message with an animation.
@@ -104,13 +133,6 @@ function placeTokenInColumn(hole) {
   game.countMoves();
   game.switchPlayer();
   // console.log(hole);
-}
-
-/* The code is selecting all elements with the class name "column" using the
-`document.querySelectorAll` method and storing them in the `columns` constant. */
-const columns = document.querySelectorAll(".column");
-for (const column of columns) {
-  column.addEventListener("click", () => handleColumnClick(column));
 }
 
 /* The `gameData` object is used to store the game board data in a formatted manner. It has two
