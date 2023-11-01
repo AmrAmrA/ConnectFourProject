@@ -46,28 +46,41 @@ const game = {
   },
 };
 
-
 const createColumnCounter = () => {
   const columnCounters = {};
-  
-  return (column) => {
-    const columnName = column.classList[1];
-    if (!columnCounters[columnName]) {
-      columnCounters[columnName] = 0;
-    }
-    columnCounters[columnName]++;
-    console.log(columnCounters);
+
+  return {
+    increment: (column) => {
+      const columnName = column.classList[1];
+      if (!columnCounters[columnName]) {
+        columnCounters[columnName] = 0;
+      }
+      columnCounters[columnName]++;
+    },
+    getCounters: () => {
+      return columnCounters;
+    },
   };
 };
+const columnCounter = createColumnCounter();
+const counters = columnCounter.getCounters();
 
-// Maintenant, vous pouvez créer une instance de votre compteur de colonnes:
-const incrementColumnClick = createColumnCounter();
+function getColumnWithFourTokens() {
+  const counters = columnCounter.getCounters();
+  for (const columnName in counters) {
+    if (counters[columnName] === 4) {
+      console.log(columnName);
+    }
+  }
+  return null;
+}
 
-// Et l'utiliser dans votre code:
 function handleColumnClick(column) {
   const lastEmptyHole = getLastEmptyHole(column);
   lastEmptyHole ? placeTokenInColumn(lastEmptyHole) : ErrorMessageAppearence();
-  incrementColumnClick(column);
+  columnCounter.increment(column);
+  console.log(counters);
+  getColumnWithFourTokens();
 }
 
 /**
